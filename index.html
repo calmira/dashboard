@@ -150,6 +150,9 @@
                                         <canvas id="lineChart"></canvas>
                                     </div>
                                 </div>
+                                <div style="margin: 0 1.25em" class="alert alert-info" role="alert">
+                                    Tekan salah satu titik untuk filter.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -272,18 +275,22 @@
                 labels: [ "2014", "2015", "2016", "2017", "2018" ],
                 defaultFontFamily: 'Montserrat',
                 datasets: [ {
-                    label: "Ekspor - Impor",
+                    label: "Neraca",
                     data: [ -2198.8, 7671.5, 9533.3, 11842.6, -8496.2 ],
                     backgroundColor: 'transparent',
                     borderColor: '#03a9f3',
                     borderWidth: 3,
-                    pointStyle: 'circle',
-                    pointRadius: 5,
-                    // pointBorderColor: 'transparent',
+                    pointStyle: ['circle', 'circle', 'circle', 'circle', 'circle'],
+                    pointRadius: [3, 3, 3, 3, 3],
+                    pointHoverRadius: [5, 5, 5, 5, 5],
+                    pointBorderColor: ['#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3'],
+                    pointHoverBorderColor: ['#ffc107', '#ffc107', '#ffc107', '#ffc107', '#ffc107'],
                     pointBackgroundColor: ['#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3'],
+                    pointHoverBackgroundColor: ['white', 'white', 'white', 'white', 'white']
                 }]
             },
             options: {
+                scaleLabel: '$',
                 legend: {
                     display: false
                 },
@@ -296,13 +303,36 @@
                     xAxes: [{
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Tahun'
                         }
                     }],
                     yAxes: [{
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
-                        }   
+                        },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Neraca (dalam juta US$)'
+                        }
                     }]
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItem, data) {
+                            return data['labels'][tooltipItem[0]['index']];
+                        },
+                        label: function(tooltipItem, data) {
+                            return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
                 }
             },
                 
@@ -344,15 +374,23 @@
                         "#fb9678"                                    
                     ]
                 }],
-                labels: [
-                    "Ekspor",
-                    "Impor"
-                ]
+                labels: ['Ekspor - 164,115', 'Impor - 160,444'],
+                tooltip: ['Ekspor', 'Impor']
             },
             options: {
                 responsive: true,
                 legend: {
                     position: 'right'
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItem, data) {
+                            return data['tooltip'][tooltipItem[0]['index']];
+                        },
+                        label: function(tooltipItem, data) {
+                            return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
                 }
             }
         });
@@ -435,26 +473,74 @@
             var j;
             if (number == 0) { // average
                 data = [164115.14, 160444.66];
+                labels = ['Ekspor - 164,115', 'Impor - 160,444'];
                 j = 7;
             } else if (number == 1) { // 2014
                 data = [175980.00, 178178.80];
+                labels = ['Ekspor - 175,980', 'Impor - 178,178'];
                 j = 2;
             } else if (number == 2) { // 2015
                 data = [150366.30, 142694.80];
+                labels = ['Ekspor - 150,366', 'Impor - 142,694'];
                 j = 3;
             } else if (number == 3) { // 2016
                 data = [145186.20, 135652.90];
+                labels = ['Ekspor - 145,186', 'Impor - 135,652'];
                 j = 4;
             } else if (number == 4) { // 2017
                 data = [168828.20, 156985.60];
+                labels = ['Ekspor - 168,828', 'Impor - 156,985'];
                 j = 5;
             } else if (number == 5) { // 2018
                 data = [180215.00, 188711.20];
+                labels = ['Ekspor - 180,215', 'Impor - 188,711'];
                 j = 6;
             } else {
                 data = [164115.14, 160444.66];
+                labels = ['Ekspor - 164,115', 'Impor - 160,444'];
                 j = 7;
             }
+            var element = document.getElementById("doughnutChart");
+            element.parentNode.removeChild(element);
+            var parent = document.getElementById("view2");
+            var newElement = document.createElement("canvas");
+            newElement.setAttribute('id', "doughnutChart");
+            parent.appendChild(newElement);
+            var doughnutChartCanvas = document.getElementById("doughnutChart");
+            var doughnutChart = new Chart(doughnutChartCanvas, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            "#00c292",
+                            "#fb9678"
+                        ],
+                        hoverBackgroundColor: [
+                            "#00c292",
+                            "#fb9678"                                    
+                        ]
+                    }],
+                    labels: labels,
+                    tooltip: ['Ekspor', 'Impor']
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'right'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            title: function(tooltipItem, data) {
+                                return data['tooltip'][tooltipItem[0]['index']];
+                            },
+                            label: function(tooltipItem, data) {
+                                return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                            }
+                        },
+                    }
+                }
+            });
             doughnutChart.data.datasets[0].data = data;
             doughnutChart.update();
 
@@ -536,17 +622,16 @@
         function updateLineChartPoint(isClicked) {
             isClicked.forEach((item, idx) => {
                 if (item) {
-                    lineChart.data.datasets[0].pointBackgroundColor[idx] = 'white';
+                    lineChart.data.datasets[0].pointBackgroundColor[idx] = '#ffc107';
+                    lineChart.data.datasets[0].pointBorderColor[idx] = '#ffc107';
+                    lineChart.data.datasets[0].pointRadius[idx] = 5;
+                    lineChart.data.datasets[0].pointHoverBorderColor[idx] = '#03a9f3';
                 } else {
                     lineChart.data.datasets[0].pointBackgroundColor[idx] = '#03a9f3';
+                    lineChart.data.datasets[0].pointBorderColor[idx] = '#03a9f3';
+                    lineChart.data.datasets[0].pointRadius[idx] = 3;
                 }
             });
-            // if (isClicked) {
-            //     lineChart.data.datasets[0].pointBackgroundColor[index] = 'white';    
-            // } else {
-            //     lineChart.data.datasets[0].pointBackgroundColor[index] = '#03a9f3';
-            // }
-            
             lineChart.update();
         }
     </script>
