@@ -173,17 +173,17 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5>Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
-                                    <div id="view1">
-                                        <!-- Dummy button -->
-                                        <button onclick="updateDoughnutChartData(0),drawBarChart({year: 'all'})">All</button>
-                                        <button onclick="updateDoughnutChartData(1),drawBarChart({year: 2014})">2014</button>
-                                        <button onclick="updateDoughnutChartData(2),drawBarChart({year: 2015})">2015</button>
-                                        <button onclick="updateDoughnutChartData(3),drawBarChart({year: 2016})">2016</button>
-                                        <button onclick="updateDoughnutChartData(4),drawBarChart({year: 2017})">2017</button>
-                                        <button onclick="updateDoughnutChartData(5),drawBarChart({year: 2018})">2018</button>
-                                        <div id="view-neraca">
-                                        </div>
+                                    <h4 class="box-title">Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
+                                </div>
+                                <div class="card-body" id="view1">
+                                    <!-- Dummy button -->
+                                    <button onclick="updateDoughnutChart(0),drawBarChart({year: 'all'})">All</button>
+                                    <button onclick="updateDoughnutChart(1),drawBarChart({year: 2014})">2014</button>
+                                    <button onclick="updateDoughnutChart(2),drawBarChart({year: 2015})">2015</button>
+                                    <button onclick="updateDoughnutChart(3),drawBarChart({year: 2016})">2016</button>
+                                    <button onclick="updateDoughnutChart(4),drawBarChart({year: 2017})">2017</button>
+                                    <button onclick="updateDoughnutChart(5),drawBarChart({year: 2018})">2018</button>
+                                    <div id="view-neraca">
                                     </div>
                                 </div>
                             </div>
@@ -194,10 +194,10 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
-                                    <div id="view2">
-                                        <canvas id="doughnutChart"></canvas>
-                                    </div>
+                                    <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
+                                </div>
+                                <div class="card-body" id="view2">
+                                    <canvas id="doughnutChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -208,18 +208,20 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <h5 id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h5>
+                            <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h5>
+                        </div>
+                        <div class="card-body">
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="sortBy" id="sortByDefault" checked onclick="drawBarChart({sortBy: 'default'})">
-                              <label class="form-check-label" for="sortByDefault">Default</label>
+                                <input class="form-check-input" type="radio" name="sortBy" id="sortByDefault" checked onclick="drawBarChart({sortBy: 'default'})">
+                                <label class="form-check-label" for="sortByDefault">Default</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="sortBy" id="sortByEkspor" onclick="drawBarChart({sortBy: 'ekspor'})">
-                              <label class="form-check-label" for="sortByEkspor">Ekspor</label>
+                                <input class="form-check-input" type="radio" name="sortBy" id="sortByEkspor" onclick="drawBarChart({sortBy: 'ekspor'})">
+                                <label class="form-check-label" for="sortByEkspor">Ekspor</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="sortBy" id="sortByImpor" onclick="drawBarChart({sortBy: 'impor'})">
-                              <label class="form-check-label" for="sortByImpor">Impor</label>
+                                <input class="form-check-input" type="radio" name="sortBy" id="sortByImpor" onclick="drawBarChart({sortBy: 'impor'})">
+                                <label class="form-check-label" for="sortByImpor">Impor</label>
                             </div>
                             <div id="view3"></div>
                         </div>
@@ -686,7 +688,10 @@
                 ]
             },
             options: {
-                responsive: true
+                responsive: true,
+                legend: {
+                    position: 'right'
+                }
             }
         } );
         function updateDoughnutChartData(number) {
@@ -706,9 +711,51 @@
             } else {
                 data = [164115.14, 160444.66];
             }
-            // alert(doughnutChart)
             doughnutChart.data.datasets[0].data = data;
             doughnutChart.update();
+        }
+        function updateDoughnutChartTitle(number) {
+            var title = "Ekspor Impor Tahun ";
+            if (number == 0) {
+                title = "Rata-rata Ekspor Impor Tahun 2014-2018";
+            } else if (number == 1) {
+                title += 2014;
+            } else if (number == 2) {
+                title += 2015;
+            } else if (number == 3) {
+                title += 2016;
+            } else if (number == 4) {
+                title += 2017;
+            } else if (number == 5) {
+                title += 2018;
+            } else {
+                title = "Rata-rata Ekspor Impor Tahun 2014-2018";
+            }
+            document.getElementById("title-view2").innerHTML = title;
+        }
+        function updateDoughnutChart(number) {
+            if (number == 0) {
+                updateDoughnutChartData(0);
+                updateDoughnutChartTitle(0);
+            } else if (number == 1) {
+                updateDoughnutChartData(1);
+                updateDoughnutChartTitle(1);
+            } else if (number == 2) {
+                updateDoughnutChartData(2);
+                updateDoughnutChartTitle(2);
+            } else if (number == 3) {
+                updateDoughnutChartData(3);
+                updateDoughnutChartTitle(3);
+            } else if (number == 4) {
+                updateDoughnutChartData(4);
+                updateDoughnutChartTitle(4);
+            } else if (number == 5) {
+                updateDoughnutChartData(5);
+                updateDoughnutChartTitle(5);
+            } else {
+                updateDoughnutChartData(0);
+                updateDoughnutChartTitle(0);
+            }
         }
     </script>
 </body>
