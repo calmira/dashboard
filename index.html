@@ -27,43 +27,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-
-   <style>
-    #weatherWidget .currentDesc {
-        color: #ffffff!important;
-    }
-        .traffic-chart {
-            min-height: 335px;
-        }
-        #flotPie1  {
-            height: 150px;
-        }
-        #flotPie1 td {
-            padding:3px;
-        }
-        #flotPie1 table {
-            top: 20px!important;
-            right: -10px!important;
-        }
-        .chart-container {
-            display: table;
-            min-width: 270px ;
-            text-align: left;
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-        #flotLine5  {
-             height: 105px;
-        }
-
-        #flotBarChart {
-            height: 150px;
-        }
-        #cellPaiChart{
-            height: 160px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="assets/css/materialize-radio.css">
 </head>
 
 <body>
@@ -210,24 +174,26 @@
                         <div class="card-body">
                             <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sortBy" id="sortByDefault" checked onclick="drawBarChart({sortBy: 'default'})">
-                                <label class="form-check-label" for="sortByDefault">Default</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sortBy" id="sortByEkspor" onclick="drawBarChart({sortBy: 'ekspor'})">
-                                <label class="form-check-label" for="sortByEkspor">Ekspor</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sortBy" id="sortByImpor" onclick="drawBarChart({sortBy: 'impor'})">
-                                <label class="form-check-label" for="sortByImpor">Impor</label>
-                            </div>
-                            <div id="view3"></div>
+                        <div class="card-body" style="display: flex; justify-content: space-between;">
+                            <label>
+                                <input name="sortBy" type="radio" checked onclick="drawBarChart({sortBy: 'default'})"/>
+                                <span>Default</span>
+                            </label>
+                            <label>
+                                <input name="sortBy" type="radio" onclick="drawBarChart({sortBy: 'ekspor'})"/>
+                                <span>Ekspor</span>
+                            </label>
+                            <label>
+                                <input name="sortBy" type="radio" onclick="drawBarChart({sortBy: 'impor'})"/>
+                                <span>Impor</span>
+                            </label>                            
+                        </div>
+                        <div id="view3">
+                            <canvas id="pyramidBarChart"></canvas>
                         </div>
                     </div>
                 </div> 
-            </div>               <!--  Traffic  -->
+            </div> 
         </div>
         <!-- /.content -->
         <div class="clearfix"></div>
@@ -364,6 +330,88 @@
                 updateDoughnutChartTitle(0);
             }
         }
+    </script>
+    <script>
+        // Pyramid Bar Chart
+        var ctx = document.getElementById( "pyramidBarChart" );
+        ctx.height = '300';
+
+        var arrayImpor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",6102,6200.8,5544.9,5245.6,6210.7,7160.6,6077.4],
+            ["Bahan Makanan",4685.1,4143.3,2931.8,3517.9,4454,4918.5,4108.4],
+            ["Bahan Material",3507.9,3827,3063.8,2735.3,3711.7,4469.5,3552.5],
+            ["Bahan Mineral",45153.7,43085,24487.4,18629.8,23937.3,29779.8,30845.5],
+            ["Kayu dan Produk Kayu",490.2,476.6,396.5,422.7,450.4,409.8,441.0],
+            ["Mesin dan Kelistrikan",9243.7,9504.9,8431.1,8665.3,10766.3,13088,9949.9],
+            ["Pertanian dan Peternakan",4396.8,3905,4228.6,5403.2,6342.9,7098.9,5229.2],
+            ["Tekstil dan Produk Tekstil",1346.3,1400.8,1087.6,1087.2,1325.2,1441.9,1281.5],
+            ["Transportasi",3626,2838.7,2265,2261.9,2539.7,2563.2,2682.4]
+        ];
+
+        var arrayEkspor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",7865.5,6501.9,6447.8,5871,7852.8,6946.8,6914.3],
+            ["Bahan Makanan",696.8,989.5,744.7,1590.3,1775.3,1887.5,1280.7],
+            ["Bahan Material",7455.8,9197.6,9223.9,9705.8,9174.7,8430.5,8864.7],
+            ["Bahan Mineral",52702,45428.9,35168.1,30484.6,39063,44082.8,41154.9],
+            ["Kayu dan Produk Kayu",10212.2,10376.3,7664.2,6234.4,7716.1,9423,8604.4],
+            ["Mesin dan Kelistrikan",1940.3,2321.7,2069.6,2484.7,3139.8,2983.1,2489.9],
+            ["Pertanian dan Peternakan",22172.8,23764,20305.7,20815.8,25943.8,24309.9,22885.3],
+            ["Tekstil dan Produk Tekstil",3876.2,4465.6,3922.5,4138.1,4620.8,4448.4,4245.3],
+            ["Transportasi",2971.7,2790.1,2197.7,2374.3,3162.9,3138.5,2772.5]
+        ];
+
+        // replace all ekspor with negative value (biar di kiri sumbu Y)
+        for(var j=1; j<arrayImpor.length;j++){
+            for(var i=1;i<=7;i++){
+                arrayImpor[j][i] = arrayImpor[j][i] * -1
+            }
+        }
+
+        console.log(arrayImpor)
+        var myChart = new Chart( ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: [ 
+                    "Bahan Kimia dan Plastik", 
+                    "Bahan Makanan", 
+                    "Bahan Material", 
+                    "Bahan Mineral", 
+                    "Kayu dan Produk Kayu", 
+                    "Mesin dan Kelistrikan", 
+                    "Pertanian dan Peternakan",
+                    "Tekstil dan Produk Tekstil",
+                    "Transportasi"
+                ],
+                datasets: [
+                    {
+                        label: "Impor",
+                        data: [ 65, 59, 80, 81, 56, 55, 45 ],
+                        borderColor: "rgba(0, 194, 146, 0.9)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(0, 194, 146, 0.5)"
+                    },
+                    {
+                        label: "Ekspor",
+                        data: [ 28, 48, 40, 19, 86, 27, 76 ],
+                        borderColor: "rgba(0,0,0,0.09)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(0,0,0,0.07)"
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [ {
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        stacked: true
+                    } ]
+                }
+            }
+        });
     </script>
 </body>
 </html>
