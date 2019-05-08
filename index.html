@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Neraca Perdagangan Indonesia Tahun 2014-2018 | IF4061 Visualisasi Data</title>
-    <meta name="description" content="Ela Admin - HTML5 Admin Template">
+    <meta name="description" content="Neraca Perdagangan Indonesia Tahun 2014-2018 | IF4061 Visualisasi Datae">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/libra.png">
@@ -21,12 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/materialize-radio.css">
 </head>
 
@@ -135,7 +129,7 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card">
+                            <div class="card" style="padding-bottom: 20px">
                                 <div class="card-body">
                                     <h4 class="box-title">Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
                                 </div>
@@ -150,7 +144,7 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body">
                                     <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
                                 </div>
@@ -164,11 +158,11 @@
 
                 <!-- Right column (bar chart) -->
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h5>
-                        </div>
-                        <div class="card-body" style="display: flex; justify-content: space-between;">
+                            <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h4><br>
+                            <span>Urutkan berdasarkan:</span> 
+                            <div style="display: flex; justify-content: space-between;">
                             <label>
                                 <input name="sortBy" type="radio" checked onclick="drawBarChart({sortBy: 'default'})"/>
                                 <span>Default</span>
@@ -180,10 +174,12 @@
                             <label>
                                 <input name="sortBy" type="radio" onclick="drawBarChart({sortBy: 'impor'})"/>
                                 <span>Impor</span>
-                            </label>                            
-                        </div>
-                        <div id="view3">
-                            <canvas id="pyramidBarChart"></canvas>
+                            </label>
+                            </div>
+                            <br>
+                            <div id="view3">
+                                <canvas id="pyramidBarChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div> 
@@ -218,24 +214,45 @@
     <!--  Chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.bundle.min.js"></script>
 
-    <!--Chartist Chart-->
-    <script src="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartist-plugin-legend@0.6.2/chartist-plugin-legend.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flot-pie@1.0.0/src/jquery.flot.pie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flot-spline@0.0.1/js/jquery.flot.spline.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/simpleweather@3.1.0/jquery.simpleWeather.min.js"></script>
-    <script src="assets/js/init/weather-init.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
-    <script src="assets/js/init/fullcalendar-init.js"></script>
-
     <script>
         var lineChartCanvas = document.getElementById("lineChart");
         var doughnutChartCanvas = document.getElementById("doughnutChart");
+        var pyramidBarChartCanvas = document.getElementById( "pyramidBarChart" );
+        pyramidBarChartCanvas.height = '300';
+
+        var arrayImpor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",6102,6200.8,5544.9,5245.6,6210.7,7160.6,6077.4],
+            ["Bahan Makanan",4685.1,4143.3,2931.8,3517.9,4454,4918.5,4108.4],
+            ["Bahan Material",3507.9,3827,3063.8,2735.3,3711.7,4469.5,3552.5],
+            ["Bahan Mineral",45153.7,43085,24487.4,18629.8,23937.3,29779.8,30845.5],
+            ["Kayu dan Produk Kayu",490.2,476.6,396.5,422.7,450.4,409.8,441.0],
+            ["Mesin dan Kelistrikan",9243.7,9504.9,8431.1,8665.3,10766.3,13088,9949.9],
+            ["Pertanian dan Peternakan",4396.8,3905,4228.6,5403.2,6342.9,7098.9,5229.2],
+            ["Tekstil dan Produk Tekstil",1346.3,1400.8,1087.6,1087.2,1325.2,1441.9,1281.5],
+            ["Transportasi",3626,2838.7,2265,2261.9,2539.7,2563.2,2682.4]
+        ];
+
+        var arrayEkspor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",7865.5,6501.9,6447.8,5871,7852.8,6946.8,6914.3],
+            ["Bahan Makanan",696.8,989.5,744.7,1590.3,1775.3,1887.5,1280.7],
+            ["Bahan Material",7455.8,9197.6,9223.9,9705.8,9174.7,8430.5,8864.7],
+            ["Bahan Mineral",52702,45428.9,35168.1,30484.6,39063,44082.8,41154.9],
+            ["Kayu dan Produk Kayu",10212.2,10376.3,7664.2,6234.4,7716.1,9423,8604.4],
+            ["Mesin dan Kelistrikan",1940.3,2321.7,2069.6,2484.7,3139.8,2983.1,2489.9],
+            ["Pertanian dan Peternakan",22172.8,23764,20305.7,20815.8,25943.8,24309.9,22885.3],
+            ["Tekstil dan Produk Tekstil",3876.2,4465.6,3922.5,4138.1,4620.8,4448.4,4245.3],
+            ["Transportasi",2971.7,2790.1,2197.7,2374.3,3162.9,3138.5,2772.5]
+        ];
+
+        // replace all ekspor with negative value (biar di kiri sumbu Y)
+        for(var j=1; j<arrayImpor.length;j++){
+            for(var i=1;i<=7;i++){
+                arrayImpor[j][i] = arrayImpor[j][i] * -1
+            }
+        }
+
         var lineChart = new Chart(lineChartCanvas, {
             type: 'line',
             data: {
@@ -298,44 +315,132 @@
                 }
             }
         });
+
+        var dataImpor = [];
+        for(var i = 1; i<arrayImpor.length;i++){ // skip header
+            dataImpor.push(arrayImpor[i][7])
+        }
+
+        var dataEkspor = [];
+        for(var i = 1; i<arrayEkspor.length;i++){ // skip header
+            dataEkspor.push(arrayEkspor[i][7])
+        }
+
+        var pyramidBarChart = new Chart( pyramidBarChartCanvas, {
+            type: 'horizontalBar',
+            data: {
+                labels: [ 
+                    "Bahan Kimia dan Plastik", 
+                    "Bahan Makanan", 
+                    "Bahan Material", 
+                    "Bahan Mineral", 
+                    "Kayu dan Produk Kayu", 
+                    "Mesin dan Kelistrikan", 
+                    "Pertanian dan Peternakan",
+                    "Tekstil dan Produk Tekstil",
+                    "Transportasi"
+                ],
+                datasets: [
+                    {
+                        label: "Impor",
+                        data: dataImpor,
+                        borderColor: "rgba(0, 194, 146, 0.9)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(0, 194, 146, 0.5)"
+                    },
+                    {
+                        label: "Ekspor",
+                        data: dataEkspor,
+                        borderColor: "rgba(0,0,0,0.09)",
+                        borderWidth: "0",
+                        backgroundColor: "rgba(0,0,0,0.07)"
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        max: 50000
+                    }],
+                    yAxes: [ {
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        stacked: true
+                    } ]
+                }
+            }
+        });
+
         function updateDoughnutChartData(number) {
             var data;
-            if (number == 0) {
+            var dataImpor = [];
+            var dataEkspor = [];
+            var j;
+            if (number == 0) { // average
                 data = [164115.14, 160444.66];
-            } else if (number == 1) {
+                j = 7;
+            } else if (number == 1) { // 2014
                 data = [175980.00, 178178.80];
-            } else if (number == 2) {
+                j = 2;
+            } else if (number == 2) { // 2015
                 data = [150366.30, 142694.80];
-            } else if (number == 3) {
+                j = 3;
+            } else if (number == 3) { // 2016
                 data = [145186.20, 135652.90];
-            } else if (number == 4) {
+                j = 4;
+            } else if (number == 4) { // 2017
                 data = [168828.20, 156985.60];
-            } else if (number == 5) {
+                j = 5;
+            } else if (number == 5) { // 2018
                 data = [180215.00, 188711.20];
+                j = 6;
             } else {
                 data = [164115.14, 160444.66];
+                j = 7;
             }
             doughnutChart.data.datasets[0].data = data;
             doughnutChart.update();
+
+            for(var i = 1; i<arrayImpor.length;i++){ // skip header
+                dataImpor.push(arrayImpor[i][j])               
+            }
+
+            for(var i = 1; i<arrayEkspor.length;i++){ // skip header
+                dataEkspor.push(arrayEkspor[i][j])
+            }
+
+            pyramidBarChart.data.datasets[0].data = dataImpor;
+            pyramidBarChart.data.datasets[1].data = dataEkspor;
+            pyramidBarChart.update();
         }
         function updateDoughnutChartTitle(number) {
             var title = "Ekspor Impor Tahun ";
+            var title2 = "Ekspor Impor Sektor Perdagangan Tahun ";
             if (number == 0) {
                 title = "Rata-rata Ekspor Impor Tahun 2014-2018";
+                title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
             } else if (number == 1) {
                 title += 2014;
+                title2 += 2014;
             } else if (number == 2) {
                 title += 2015;
+                title2 += 2015;
             } else if (number == 3) {
                 title += 2016;
+                title2 += 2016;
             } else if (number == 4) {
                 title += 2017;
+                title2 += 2017;
             } else if (number == 5) {
                 title += 2018;
+                title2 += 2018;
             } else {
                 title = "Rata-rata Ekspor Impor Tahun 2014-2018";
+                title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
             }
             document.getElementById("title-view2").innerHTML = title;
+            document.getElementById("title-view3").innerHTML = title2;
         }
         function updateDoughnutChart(number) {
             if (number == 0) {
@@ -361,88 +466,6 @@
                 updateDoughnutChartTitle(0);
             }
         }
-    </script>
-    <script>
-        // Pyramid Bar Chart
-        var ctx = document.getElementById( "pyramidBarChart" );
-        ctx.height = '300';
-
-        var arrayImpor = [
-            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
-            ["Bahan Kimia dan Plastik",6102,6200.8,5544.9,5245.6,6210.7,7160.6,6077.4],
-            ["Bahan Makanan",4685.1,4143.3,2931.8,3517.9,4454,4918.5,4108.4],
-            ["Bahan Material",3507.9,3827,3063.8,2735.3,3711.7,4469.5,3552.5],
-            ["Bahan Mineral",45153.7,43085,24487.4,18629.8,23937.3,29779.8,30845.5],
-            ["Kayu dan Produk Kayu",490.2,476.6,396.5,422.7,450.4,409.8,441.0],
-            ["Mesin dan Kelistrikan",9243.7,9504.9,8431.1,8665.3,10766.3,13088,9949.9],
-            ["Pertanian dan Peternakan",4396.8,3905,4228.6,5403.2,6342.9,7098.9,5229.2],
-            ["Tekstil dan Produk Tekstil",1346.3,1400.8,1087.6,1087.2,1325.2,1441.9,1281.5],
-            ["Transportasi",3626,2838.7,2265,2261.9,2539.7,2563.2,2682.4]
-        ];
-
-        var arrayEkspor = [
-            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
-            ["Bahan Kimia dan Plastik",7865.5,6501.9,6447.8,5871,7852.8,6946.8,6914.3],
-            ["Bahan Makanan",696.8,989.5,744.7,1590.3,1775.3,1887.5,1280.7],
-            ["Bahan Material",7455.8,9197.6,9223.9,9705.8,9174.7,8430.5,8864.7],
-            ["Bahan Mineral",52702,45428.9,35168.1,30484.6,39063,44082.8,41154.9],
-            ["Kayu dan Produk Kayu",10212.2,10376.3,7664.2,6234.4,7716.1,9423,8604.4],
-            ["Mesin dan Kelistrikan",1940.3,2321.7,2069.6,2484.7,3139.8,2983.1,2489.9],
-            ["Pertanian dan Peternakan",22172.8,23764,20305.7,20815.8,25943.8,24309.9,22885.3],
-            ["Tekstil dan Produk Tekstil",3876.2,4465.6,3922.5,4138.1,4620.8,4448.4,4245.3],
-            ["Transportasi",2971.7,2790.1,2197.7,2374.3,3162.9,3138.5,2772.5]
-        ];
-
-        // replace all ekspor with negative value (biar di kiri sumbu Y)
-        for(var j=1; j<arrayImpor.length;j++){
-            for(var i=1;i<=7;i++){
-                arrayImpor[j][i] = arrayImpor[j][i] * -1
-            }
-        }
-
-        console.log(arrayImpor)
-        var myChart = new Chart( ctx, {
-            type: 'horizontalBar',
-            data: {
-                labels: [ 
-                    "Bahan Kimia dan Plastik", 
-                    "Bahan Makanan", 
-                    "Bahan Material", 
-                    "Bahan Mineral", 
-                    "Kayu dan Produk Kayu", 
-                    "Mesin dan Kelistrikan", 
-                    "Pertanian dan Peternakan",
-                    "Tekstil dan Produk Tekstil",
-                    "Transportasi"
-                ],
-                datasets: [
-                    {
-                        label: "Impor",
-                        data: [ 65, 59, 80, 81, 56, 55, 45 ],
-                        borderColor: "rgba(0, 194, 146, 0.9)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(0, 194, 146, 0.5)"
-                    },
-                    {
-                        label: "Ekspor",
-                        data: [ 28, 48, 40, 19, 86, 27, 76 ],
-                        borderColor: "rgba(0,0,0,0.09)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(0,0,0,0.07)"
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [ {
-                        ticks: {
-                            beginAtZero: true
-                        },
-                        stacked: true
-                    } ]
-                }
-            }
-        });
     </script>
 </body>
 </html>
