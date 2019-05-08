@@ -22,6 +22,18 @@
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/materialize-radio.css">
+
+    <style>
+        #view3 {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #view3 span {
+            font-size: 12px;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -164,25 +176,25 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h4><br>
-                            <span>Urutkan berdasarkan:</span> 
-                            <div style="display: flex; justify-content: space-between;">
+                            <div  id="view3">
                             <label>
-                                <input name="sortBy" type="radio" checked onclick="drawBarChart({sortBy: 'default'})"/>
-                                <span>Default</span>
+                                <span>Urutkan berdasarkan:</span>
                             </label>
                             <label>
-                                <input name="sortBy" type="radio" onclick="drawBarChart({sortBy: 'ekspor'})"/>
-                                <span>Ekspor</span>
+                                <input name="sortBy" type="radio" checked onclick="updateSort('sektor')"/>
+                                <span>Sektor</span>
                             </label>
                             <label>
-                                <input name="sortBy" type="radio" onclick="drawBarChart({sortBy: 'impor'})"/>
+                                <input name="sortBy" type="radio" onclick="updateSort('impor')"/>
                                 <span>Impor</span>
+                            </label>
+                            <label>
+                                <input name="sortBy" type="radio" onclick="updateSort('ekspor')"/>
+                                <span>Ekspor</span>
                             </label>
                             </div>
                             <br>
-                            <div id="view3">
-                                <canvas id="pyramidBarChart"></canvas>
-                            </div>
+                            <canvas id="pyramidBarChart"></canvas>
                         </div>
                     </div>
                 </div> 
@@ -415,30 +427,45 @@
                     {
                         label: "Impor",
                         data: dataImpor,
-                        borderColor: "rgba(0, 194, 146, 0.9)",
+                        borderColor: "rgba(245, 23, 66,.5)",
                         borderWidth: "0",
-                        backgroundColor: "rgba(0, 194, 146, 0.5)"
+                        backgroundColor: "rgba(245, 23, 66,.5)"
                     },
                     {
                         label: "Ekspor",
                         data: dataEkspor,
-                        borderColor: "rgba(0,0,0,0.09)",
+                        borderColor: "rgba(0, 194, 146, 0.9)",
                         borderWidth: "0",
-                        backgroundColor: "rgba(0,0,0,0.07)"
+                        backgroundColor: "rgba(0, 194, 146, 0.5)"
                     }
                 ]
             },
             options: {
-                scales: {
-                    xAxes: [{
-                        max: 50000
-                    }],
-                    yAxes: [ {
+                legend: {
+                    display: false
+                },
+                scales:{
+                    xAxes:[{
+                        id: 'xAxis1',
                         ticks: {
-                            beginAtZero: true
-                        },
+                            stepSize: 25000,
+                            min: -50000,
+                            max: 50000
+                        }
+                    }, {
+                        id: 'xAxis2',
+                        position: 'top',
+                        type: 'linear',
+                        ticks: {
+                            callback: function(v,i,vl){
+                                if (v == -0.5) return 'Impor';
+                                else if(v == 0.5) return 'Ekspor';
+                            }
+                        }
+                    }],
+                    yAxes: [{
                         stacked: true
-                    } ]
+                    }]
                 }
             }
         });
@@ -588,6 +615,17 @@
                 updateDoughnutChartData(0);
                 updateDoughnutChartTitle(0);
             }
+        }
+
+        function updateSort(sortBy) {
+            switch (sortBy) {
+                case 'impor': break;
+                case 'ekspor': break;
+                default: break;
+            }
+            pyramidBarChart.data.datasets[0].data = dataImpor;
+            pyramidBarChart.data.datasets[1].data = dataEkspor;
+            pyramidBarChart.update();
         }
         function updateLineChartPoint(isClicked) {
             isClicked.forEach((item, idx) => {
