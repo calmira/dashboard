@@ -303,7 +303,7 @@
                         },
                         ticks: {
                             callback: function(value, index, values) {
-                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             }
                         },
                         scaleLabel: {
@@ -311,6 +311,16 @@
                             labelString: 'Neraca (dalam juta US$)'
                         }
                     }]
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItem, data) {
+                            return data['labels'][tooltipItem[0]['index']];
+                        },
+                        label: function(tooltipItem, data) {
+                            return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
                 }
             },
                 
@@ -352,12 +362,23 @@
                         "#fb9678"                                    
                     ]
                 }],
-                labels: ['Ekspor - 164,115', 'Impor - 160,444']
+                labels: ['Ekspor - 164,115', 'Impor - 160,444'],
+                tooltip: ['Ekspor', 'Impor']
             },
             options: {
                 responsive: true,
                 legend: {
                     position: 'right'
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItem, data) {
+                            return data['tooltip'][tooltipItem[0]['index']];
+                        },
+                        label: function(tooltipItem, data) {
+                            return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
                 }
             }
         });
@@ -452,6 +473,13 @@
                 labels = ['Ekspor - 164,115', 'Impor - 160,444'];
                 j = 7;
             }
+            var element = document.getElementById("doughnutChart");
+            element.parentNode.removeChild(element);
+            var parent = document.getElementById("view2");
+            var newElement = document.createElement("canvas");
+            newElement.setAttribute('id', "doughnutChart");
+            parent.appendChild(newElement);
+            var doughnutChartCanvas = document.getElementById("doughnutChart");
             var doughnutChart = new Chart(doughnutChartCanvas, {
                 type: 'doughnut',
                 data: {
@@ -466,12 +494,23 @@
                             "#fb9678"                                    
                         ]
                     }],
-                    labels: labels
+                    labels: labels,
+                    tooltip: ['Ekspor', 'Impor']
                 },
                 options: {
                     responsive: true,
                     legend: {
                         position: 'right'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            title: function(tooltipItem, data) {
+                                return data['tooltip'][tooltipItem[0]['index']];
+                            },
+                            label: function(tooltipItem, data) {
+                                return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                            }
+                        },
                     }
                 }
             });
