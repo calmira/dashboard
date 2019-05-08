@@ -270,6 +270,7 @@
     <script>
         var lineChartCanvas = document.getElementById("lineChart");
         var doughnutChartCanvas = document.getElementById("doughnutChart");
+        var pointsActivity = [ false, false, false, false, false ];
         var lineChart = new Chart(lineChartCanvas, {
             type: 'line',
             data: {
@@ -283,8 +284,8 @@
                     borderWidth: 3,
                     pointStyle: 'circle',
                     pointRadius: 5,
-                    pointBorderColor: 'transparent',
-                    pointBackgroundColor: '#03a9f3',
+                    // pointBorderColor: 'transparent',
+                    pointBackgroundColor: ['#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3', '#03a9f3'],
                 }]
             },
             options: {
@@ -295,15 +296,43 @@
                     line: {
                         tension: 0
                     }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }   
+                    }]
                 }
-            }
+            },
+                
         });
         lineChartCanvas.onclick = function(evt) {
             var activePoints = lineChart.getElementAtEvent(evt);
             if (activePoints.length > 0) {
                 var clickedElementIndex = activePoints[0]._index;
-                // Update chart for the selected point
-                updateDoughnutChart(clickedElementIndex + 1); 
+                
+                if (pointsActivity.indexOf(true) != -1 && pointsActivity[clickedElementIndex]) {
+                    // Update chart to all value (average)
+                    updateDoughnutChart(0);
+                    pointsActivity[clickedElementIndex] = !pointsActivity[clickedElementIndex];
+                    updateLineChartPoint(pointsActivity);
+                } else {
+                    if (pointsActivity.indexOf(true) != -1 && !pointsActivity[clickedElementIndex]) {
+                        pointsActivity = [ false, false, false, false, false ];
+                    }
+                    // Update chart for the selected point
+                    updateDoughnutChart(clickedElementIndex + 1);
+                    pointsActivity[clickedElementIndex] = !pointsActivity[clickedElementIndex];
+                    updateLineChartPoint(pointsActivity);
+                }
+                
+
             }
         };
         var doughnutChart = new Chart(doughnutChartCanvas, {
@@ -394,6 +423,22 @@
                 updateDoughnutChartData(0);
                 updateDoughnutChartTitle(0);
             }
+        }
+        function updateLineChartPoint(isClicked) {
+            isClicked.forEach((item, idx) => {
+                if (item) {
+                    lineChart.data.datasets[0].pointBackgroundColor[idx] = 'white';
+                } else {
+                    lineChart.data.datasets[0].pointBackgroundColor[idx] = '#03a9f3';
+                }
+            });
+            // if (isClicked) {
+            //     lineChart.data.datasets[0].pointBackgroundColor[index] = 'white';    
+            // } else {
+            //     lineChart.data.datasets[0].pointBackgroundColor[index] = '#03a9f3';
+            // }
+            
+            lineChart.update();
         }
     </script>
 </body>
