@@ -39,6 +39,11 @@
 }
 
 /* Unchecked styles */
+[type="radio"]:not(:checked):hover + span:before,
+[type="radio"]:not(:checked):hover + span:after {
+  border: 2px solid #ffc107;
+}
+
 [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after,
 [type="radio"]:checked + span:before,
@@ -50,7 +55,7 @@
 
 [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after {
-  border: 2px solid #5a5a5a;
+  border: 2px solid #03a9f3;
 }
 
 [type="radio"]:not(:checked) + span:after {
@@ -66,12 +71,14 @@
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:before,
 [type="radio"].with-gap:checked + span:after {
-  border: 2px solid #26a69a;
+  /*border: 2px solid #26a69a;*/
+  border: 2px solid #03a9f3;
 }
 
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:after {
-  background-color: #26a69a;
+/*  background-color: #26a69a;*/
+  background-color: #03a9f3;
 }
 
 [type="radio"]:checked + span:after {

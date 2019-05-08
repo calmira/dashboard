@@ -24,13 +24,17 @@
     <link rel="stylesheet" href="assets/css/materialize-radio.css">
 
     <style>
+        #view2 {
+            padding-bottom: 0;
+        }
+
         #view3 {
             display: flex;
             justify-content: space-between;
         }
 
         #view3 span {
-            font-size: 12px;
+            font-size: 14px;
         }
 
     </style>
@@ -144,14 +148,11 @@
                             <div class="card" style="padding-bottom: 20px">
                                 <div class="card-body">
                                     <h4 class="box-title">Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
-                                </div>
-                                <div class="card-body" id="view1">
-                                    <div id="view-neraca">
-                                        <canvas id="lineChart"></canvas>
-                                    </div>
+                                    <br>
+                                    <canvas id="lineChart"></canvas>
                                 </div>
                                 <div style="margin: 0 1.25em" class="alert alert-info" role="alert">
-                                    Tekan salah satu titik untuk filter.
+                                    <span style="font-size: 14px"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;Tekan salah satu titik diatas untuk mengaktifkan filter.</span>
                                 </div>
                             </div>
                         </div>
@@ -160,10 +161,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card h-100">
-                                <div class="card-body">
-                                    <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
-                                </div>
                                 <div class="card-body" id="view2">
+                                    <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
+                                    <br>
                                     <canvas id="doughnutChart"></canvas>
                                 </div>
                             </div>
@@ -176,10 +176,8 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h4><br>
-                            <div  id="view3">
-                            <label>
+                            <div id="view3">
                                 <span>Urutkan berdasarkan:</span>
-                            </label>
                             <label>
                                 <input name="sortBy" type="radio" checked onclick="updateSort('sektor')"/>
                                 <span>Sektor</span>
@@ -202,6 +200,7 @@
         </div>
         <!-- /.content -->
         <div class="clearfix"></div>
+        <br>
         <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-inner bg-white">
@@ -231,7 +230,9 @@
 
     <script>
         var lineChartCanvas = document.getElementById("lineChart");
+        lineChartCanvas.height = '140';
         var doughnutChartCanvas = document.getElementById("doughnutChart");
+        doughnutChartCanvas.height = '100';
         var pyramidBarChartCanvas = document.getElementById( "pyramidBarChart" );
         pyramidBarChartCanvas.height = '300';
 
@@ -305,8 +306,11 @@
                             color: "rgba(0, 0, 0, 0)",
                         },
                         scaleLabel: {
-                            display: true,
+                            display: false,
                             labelString: 'Tahun'
+                        },
+                        ticks: {
+                            padding: 20
                         }
                     }],
                     yAxes: [{
@@ -316,10 +320,11 @@
                         ticks: {
                             callback: function(value, index, values) {
                                 return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                            }
+                            },
+                            padding: 15
                         },
                         scaleLabel: {
-                            display: true,
+                            display: false,
                             labelString: 'Neraca (dalam juta US$)'
                         }
                     }]
@@ -370,8 +375,8 @@
                         "rgba(251, 150, 120, 0.9)"
                     ],
                     backgroundColor: [
-                        "rgba(0, 194, 146, 0.8)",
-                        "rgba(251, 150, 120, 0.8)"
+                        "rgba(0, 194, 146, 0.5)",
+                        "rgba(251, 150, 120, 0.5)"
                     ],
                     hoverBackgroundColor: [
                         "rgba(0, 194, 146, 0.95)",
@@ -427,16 +432,18 @@
                     {
                         label: "Impor",
                         data: dataImpor,
-                        borderColor: "rgba(245, 23, 66,.5)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(245, 23, 66,.5)"
+                        borderColor: "rgba(251, 150, 120, 0.9)",
+                        borderWidth: 2,
+                        backgroundColor: "rgba(251, 150, 120, 0.5)",
+                        hoverBackgroundColor: "rgba(251, 150, 120, 0.95)"
                     },
                     {
                         label: "Ekspor",
                         data: dataEkspor,
                         borderColor: "rgba(0, 194, 146, 0.9)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(0, 194, 146, 0.5)"
+                        borderWidth: 2,
+                        backgroundColor: "rgba(0, 194, 146, 0.5)",
+                        hoverBackgroundColor: "rgba(0, 194, 146, 0.95)"
                     }
                 ]
             },
@@ -466,6 +473,16 @@
                     yAxes: [{
                         stacked: true
                     }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return  tooltipItem.xLabel.toString().replace('-','').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
+                    itemSort: function(a, b) {
+                        return b.datasetIndex - a.datasetIndex
+                    }
                 }
             }
         });
@@ -508,6 +525,7 @@
             element.parentNode.removeChild(element);
             var parent = document.getElementById("view2");
             var newElement = document.createElement("canvas");
+            newElement.height = '100';
             newElement.setAttribute('id', "doughnutChart");
             parent.appendChild(newElement);
             var doughnutChartCanvas = document.getElementById("doughnutChart");
