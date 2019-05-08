@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ela Admin - HTML5 Admin Template</title>
+    <title>Neraca Perdagangan Indonesia Tahun 2014-2018 | IF4061 Visualisasi Data</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -98,9 +98,7 @@
             <div class="top-left">
                 <div class="navbar-header">
                     <a id="menuToggle" class="menutoggle" style="margin-right: 10px;"><i class="fa fa-bars"></i></a>
-                    <a class="navbar-brand" href="./">Hot</a>
-                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
-                    
+                    <a class="navbar-brand" href="./">Neraca Perdagangan Indonesia Tahun 2014-2018</a>                    
                 </div>
             </div>
         </header>
@@ -111,7 +109,7 @@
             <div class="animated fadeIn">
                 <!-- Widgets  -->
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-6 col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="stat-widget-five">
@@ -120,26 +118,8 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text">$<span class="count">23569</span></div>
-                                            <div class="stat-heading">Revenue</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-2">
-                                        <i class="pe-7s-cart"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">3435</span></div>
-                                            <div class="stat-heading">Sales</div>
+                                            <div class="stat-text"><span class="count">2018</span></div>
+                                            <div class="stat-heading">Ekspor impor tertinggi dalam lima tahun terakhir</div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,12 +132,12 @@
                             <div class="card-body">
                                 <div class="stat-widget-five">
                                     <div class="stat-icon dib flat-color-3">
-                                        <i class="pe-7s-browser"></i>
+                                        <i class="pe-7s-note2"></i>
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">349</span></div>
-                                            <div class="stat-heading">Templates</div>
+                                            <div class="stat-text"><span class="count">9</span></div>
+                                            <div class="stat-heading">Pembagian kategori</div>
                                         </div>
                                     </div>
                                 </div>
@@ -170,12 +150,12 @@
                             <div class="card-body">
                                 <div class="stat-widget-five">
                                     <div class="stat-icon dib flat-color-4">
-                                        <i class="pe-7s-users"></i>
+                                        <i class="pe-7s-box1"></i>
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">2986</span></div>
-                                            <div class="stat-heading">Clients</div>
+                                            <div class="stat-text">Minyak</div>
+                                            <div class="stat-heading">Komoditas terbesar</div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,8 +163,69 @@
                         </div>
                     </div>
                 </div>
-                <!-- /Widgets -->
-                <!--  Traffic  -->
+            </div>    
+            <!-- /Widgets -->
+            <div class="row">
+
+                <!-- Left column -->
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
+                                    <div id="view1">
+                                        <!-- Dummy button -->
+                                        <button onclick="updateDoughnutChartData(0),drawBarChart({year: 'all'})">All</button>
+                                        <button onclick="updateDoughnutChartData(1),drawBarChart({year: 2014})">2014</button>
+                                        <button onclick="updateDoughnutChartData(2),drawBarChart({year: 2015})">2015</button>
+                                        <button onclick="updateDoughnutChartData(3),drawBarChart({year: 2016})">2016</button>
+                                        <button onclick="updateDoughnutChartData(4),drawBarChart({year: 2017})">2017</button>
+                                        <button onclick="updateDoughnutChartData(5),drawBarChart({year: 2018})">2018</button>
+                                        <div id="view-neraca">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
+                                    <div id="view2">
+                                        <canvas id="doughnutChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column (bar chart) -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h5>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="sortBy" id="sortByDefault" checked onclick="drawBarChart({sortBy: 'default'})">
+                              <label class="form-check-label" for="sortByDefault">Default</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="sortBy" id="sortByEkspor" onclick="drawBarChart({sortBy: 'ekspor'})">
+                              <label class="form-check-label" for="sortByEkspor">Ekspor</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="sortBy" id="sortByImpor" onclick="drawBarChart({sortBy: 'impor'})">
+                              <label class="form-check-label" for="sortByImpor">Impor</label>
+                            </div>
+                            <div id="view3"></div>
+                        </div>
+                    </div>
+                </div> 
+            </div>               <!--  Traffic  -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
@@ -622,6 +663,53 @@
             });
             // Bar Chart #flotBarChart End
         });
+    </script>
+    <script>
+        var doughnutChartCanvas = document.getElementById("doughnutChart");
+        var doughnutChart = new Chart( doughnutChartCanvas, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [ 164115.14, 160444.66 ],
+                    backgroundColor: [
+                        "#00c292",
+                        "#fb9678"
+                    ],
+                    hoverBackgroundColor: [
+                        "#00c292",
+                        "#fb9678"                                    
+                    ]
+                }],
+                labels: [
+                    "Ekspor",
+                    "Impor"
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        } );
+        function updateDoughnutChartData(number) {
+            var data;
+            if (number == 0) {
+                data = [164115.14, 160444.66];
+            } else if (number == 1) {
+                data = [175980.00, 178178.80];
+            } else if (number == 2) {
+                data = [150366.30, 142694.80];
+            } else if (number == 3) {
+                data = [145186.20, 135652.90];
+            } else if (number == 4) {
+                data = [168828.20, 156985.60];
+            } else if (number == 5) {
+                data = [180215.00, 188711.20];
+            } else {
+                data = [164115.14, 160444.66];
+            }
+            // alert(doughnutChart)
+            doughnutChart.data.datasets[0].data = data;
+            doughnutChart.update();
+        }
     </script>
 </body>
 </html>
