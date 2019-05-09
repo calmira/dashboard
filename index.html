@@ -24,6 +24,29 @@
     <link rel="stylesheet" href="assets/css/materialize-radio.css">
 
     <style>
+        @media (min-width: 768px) {
+            .right-panel .navbar-header {
+                padding: 0;
+                max-height: 55px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .right-panel .navbar-header {
+                padding: 5px;
+            }
+            #menuToggle {
+                padding-top: 0;
+            }
+            aside.left-panel {
+                top: 45px;
+            }
+        }
+
+        #menuToggle {
+            margin-right: 10px;
+        }
+
         #header {
             padding-left: 0;
         }
@@ -86,8 +109,8 @@
         <!-- Header-->
         <header id="header" class="header">
             <div class="top-left">
-                <div class="navbar-header" style="max-height: 55px">
-                    <a id="menuToggle" class="menutoggle" style="margin-right: 10px;"><i class="fa fa-bars"></i></a>
+                <div class="navbar-header">
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                     <a href="./"><img style="max-height: 35px" src="images/libra.png" alt="Logo">&nbsp;Neraca Perdagangan Indonesia</a>             
                 </div>
             </div>
@@ -99,7 +122,7 @@
             <div class="animated fadeIn">
                 <!-- Widgets  -->
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-body" style="background-color: rgb(0,194,146, 0.8);">
                                 <div class="stat-widget-five">

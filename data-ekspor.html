@@ -20,6 +20,32 @@
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
+        @media (min-width: 768px) {
+            .right-panel .navbar-header {
+                padding: 0;
+                max-height: 55px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .right-panel .navbar-header {
+                padding: 5px;
+            }
+            #menuToggle {
+                padding-top: 0;
+            }
+            aside.left-panel {
+                top: 45px;
+            }
+        }
+
+        #menuToggle {
+            margin-right: 10px;
+        }
+
+        #header {
+            padding-left: 0;
+        }
         #bootstrap-data-table {
             min-width: 100%;
         }
@@ -154,7 +180,6 @@
     <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
     <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
     <script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
-    <script src="assets/js/init/datatables-init.js"></script>
     <script src="assets/js/jquery.csv.js"></script>
 
 
