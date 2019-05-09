@@ -554,6 +554,9 @@
             var doughnutChart = new Chart(doughnutChartCanvas, doughnutChartData);
         }
 
+        var doughnutTitle = jQuery("#title-view2");
+        var pyramidTitle = jQuery("#title-view3");
+
         function updateChartTitle(number) {
             var title = "Rata-rata Ekspor Impor Tahun 2014-2018";
             var title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
@@ -575,8 +578,13 @@
                 title = "Ekspor Impor Tahun " + year;
                 title2 = "Ekspor Impor Sektor Perdagangan Tahun " + year;
             }
-            document.getElementById("title-view2").innerHTML = title;
-            document.getElementById("title-view3").innerHTML = title2;
+
+            doughnutTitle.animate({opacity: 0}, 'normal', function(){
+                doughnutTitle.text(title2).animate({opacity: 1});
+            });
+            pyramidTitle.animate({opacity: 0}, 'normal', function(){
+                pyramidTitle.text(title2).animate({opacity: 1});
+            });
         }
 
         function updateLineChartPoint(isClicked) {
