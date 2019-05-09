@@ -24,13 +24,34 @@
     <link rel="stylesheet" href="assets/css/materialize-radio.css">
 
     <style>
+        #header {
+            padding-left: 0;
+        }
+
+        #view1 {
+            padding-bottom: 20px;
+        }
+
+        #view2 {
+            padding-bottom: 0;
+        }
+
         #view3 {
             display: flex;
             justify-content: space-between;
         }
 
         #view3 span {
-            font-size: 12px;
+            font-size: 14px;
+        }
+
+        .two-lines {
+            line-height: 1.4em;
+            min-height: 2.8em;
+        }
+
+        #title-view3 {
+            height: 2.9em;
         }
 
     </style>
@@ -45,7 +66,6 @@
                     <li class="active">
                         <a href="index.html"><i class="menu-icon fa fa-laptop"></i>Dasbor</a>
                     </li>
-                    
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Data</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -64,7 +84,7 @@
     <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
         <!-- Header-->
-        <header id="header" class="header" style="padding-left: 0;">
+        <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header" style="max-height: 55px">
                     <a id="menuToggle" class="menutoggle" style="margin-right: 10px;"><i class="fa fa-bars"></i></a>
@@ -89,7 +109,7 @@
                                     <div class="stat-content">
                                         <div class="text-left dib">
                                             <div class="stat-text"><span class="count">2018</span></div>
-                                            <div class="stat-heading">Ekspor impor tertinggi dalam lima tahun terakhir</div>
+                                            <div class="stat-heading two-lines">Ekspor impor tertinggi dalam lima tahun terakhir</div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +127,7 @@
                                     <div class="stat-content">
                                         <div class="text-left dib">
                                             <div class="stat-text"><span class="count">9</span></div>
-                                            <div class="stat-heading">Pembagian kategori</div>
+                                            <div class="stat-heading two-lines">Pembagian kategori</div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +145,7 @@
                                     <div class="stat-content">
                                         <div class="text-left dib">
                                             <div class="stat-text">Minyak</div>
-                                            <div class="stat-heading">Komoditas terbesar</div>
+                                            <div class="stat-heading two-lines">Komoditas terbesar</div>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +161,7 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card" style="padding-bottom: 20px">
+                            <div class="card" id="view1">
                                 <div class="card-body">
                                     <h4 class="box-title">Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
                                 </div>
@@ -152,7 +172,7 @@
                                     </div>
                                 </div>
                                 <div style="margin: 0 1.25em" class="alert alert-info" role="alert">
-                                    Tekan salah satu titik untuk filter.
+                                    <span style="font-size: 14px"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;Tekan salah satu titik diatas untuk mengaktifkan filter.</span>
                                 </div>
                             </div>
                         </div>
@@ -161,10 +181,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card h-100">
-                                <div class="card-body">
-                                    <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
-                                </div>
                                 <div class="card-body" id="view2">
+                                    <h4 class="box-title" id="title-view2">Rata-rata Ekspor Impor Tahun 2014-2018 </h5>
+                                    <br>
                                     <canvas id="doughnutChart"></canvas>
                                 </div>
                             </div>
@@ -177,20 +196,18 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <h4 class="box-title" id="title-view3">Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018</h4><br>
-                            <div  id="view3">
-                            <label>
+                            <div id="view3">
                                 <span>Urutkan berdasarkan:</span>
-                            </label>
                             <label>
-                                <input name="sortBy" type="radio" checked onclick="updateSort('sektor')"/>
+                                <input name="sortBy" type="radio" value="default" checked onclick="updateSortBy()"/>
                                 <span>Sektor</span>
                             </label>
                             <label>
-                                <input name="sortBy" type="radio" onclick="updateSort('impor')"/>
+                                <input name="sortBy" type="radio" value="impor" onclick="updateSortBy()"/>
                                 <span>Impor</span>
                             </label>
                             <label>
-                                <input name="sortBy" type="radio" onclick="updateSort('ekspor')"/>
+                                <input name="sortBy" type="radio" value="ekspor" onclick="updateSortBy()"/>
                                 <span>Ekspor</span>
                             </label>
                             </div>
@@ -203,6 +220,7 @@
         </div>
         <!-- /.content -->
         <div class="clearfix"></div>
+        <br>
         <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-inner bg-white">
@@ -232,45 +250,11 @@
 
     <script>
         var lineChartCanvas = document.getElementById("lineChart");
-        var doughnutChartCanvas = document.getElementById("doughnutChart");
-        var pyramidBarChartCanvas = document.getElementById( "pyramidBarChart" );
-        pyramidBarChartCanvas.height = '300';
-
-        var arrayImpor = [
-            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
-            ["Bahan Kimia dan Plastik",6102,6200.8,5544.9,5245.6,6210.7,7160.6,6077.4],
-            ["Bahan Makanan",4685.1,4143.3,2931.8,3517.9,4454,4918.5,4108.4],
-            ["Bahan Material",3507.9,3827,3063.8,2735.3,3711.7,4469.5,3552.5],
-            ["Bahan Mineral",45153.7,43085,24487.4,18629.8,23937.3,29779.8,30845.5],
-            ["Kayu dan Produk Kayu",490.2,476.6,396.5,422.7,450.4,409.8,441.0],
-            ["Mesin dan Kelistrikan",9243.7,9504.9,8431.1,8665.3,10766.3,13088,9949.9],
-            ["Pertanian dan Peternakan",4396.8,3905,4228.6,5403.2,6342.9,7098.9,5229.2],
-            ["Tekstil dan Produk Tekstil",1346.3,1400.8,1087.6,1087.2,1325.2,1441.9,1281.5],
-            ["Transportasi",3626,2838.7,2265,2261.9,2539.7,2563.2,2682.4]
-        ];
-
-        var arrayEkspor = [
-            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
-            ["Bahan Kimia dan Plastik",7865.5,6501.9,6447.8,5871,7852.8,6946.8,6914.3],
-            ["Bahan Makanan",696.8,989.5,744.7,1590.3,1775.3,1887.5,1280.7],
-            ["Bahan Material",7455.8,9197.6,9223.9,9705.8,9174.7,8430.5,8864.7],
-            ["Bahan Mineral",52702,45428.9,35168.1,30484.6,39063,44082.8,41154.9],
-            ["Kayu dan Produk Kayu",10212.2,10376.3,7664.2,6234.4,7716.1,9423,8604.4],
-            ["Mesin dan Kelistrikan",1940.3,2321.7,2069.6,2484.7,3139.8,2983.1,2489.9],
-            ["Pertanian dan Peternakan",22172.8,23764,20305.7,20815.8,25943.8,24309.9,22885.3],
-            ["Tekstil dan Produk Tekstil",3876.2,4465.6,3922.5,4138.1,4620.8,4448.4,4245.3],
-            ["Transportasi",2971.7,2790.1,2197.7,2374.3,3162.9,3138.5,2772.5]
-        ];
-
-        // replace all ekspor with negative value (biar di kiri sumbu Y)
-        for(var j=1; j<arrayImpor.length;j++){
-            for(var i=1;i<=7;i++){
-                arrayImpor[j][i] = arrayImpor[j][i] * -1
-            }
-        }
+        lineChartCanvas.height = '140';
 
         var pointsActivity = [ false, false, false, false, false ];
-        var lineChart = new Chart(lineChartCanvas, {
+        
+        var lineChartData = {
             type: 'line',
             data: {
                 labels: [ "2014", "2015", "2016", "2017", "2018" ],
@@ -327,9 +311,11 @@
                         }
                     },
                 }
-            },
-                
-        });
+            }
+        }
+
+        var lineChart = new Chart(lineChartCanvas,lineChartData);
+
         lineChartCanvas.onclick = function(evt) {
             var activePoints = lineChart.getElementAtEvent(evt);
             if (activePoints.length > 0) {
@@ -337,23 +323,29 @@
                 
                 if (pointsActivity.indexOf(true) != -1 && pointsActivity[clickedElementIndex]) {
                     // Update chart to all value (average)
-                    updateDoughnutChart(0);
+                    updateDoughnutChartData(0);
+                    updateChartTitle(0);
                     pointsActivity[clickedElementIndex] = !pointsActivity[clickedElementIndex];
                     updateLineChartPoint(pointsActivity);
+                    updateSortBy();
                 } else {
                     if (pointsActivity.indexOf(true) != -1 && !pointsActivity[clickedElementIndex]) {
                         pointsActivity = [ false, false, false, false, false ];
                     }
                     // Update chart for the selected point
-                    updateDoughnutChart(clickedElementIndex + 1);
+                    updateDoughnutChartData(clickedElementIndex + 1);
+                    updateChartTitle(clickedElementIndex + 1);
                     pointsActivity[clickedElementIndex] = !pointsActivity[clickedElementIndex];
                     updateLineChartPoint(pointsActivity);
+                    updateSortBy();
                 }
-                
-
             }
         };
-        var doughnutChart = new Chart(doughnutChartCanvas, {
+
+        var doughnutChartCanvas = document.getElementById("doughnutChart");
+        doughnutChartCanvas.height = '100';
+        
+        var doughnutChartData = {
             type: 'doughnut',
             data: {
                 datasets: [{
@@ -363,8 +355,8 @@
                         "rgba(251, 150, 120, 0.9)"
                     ],
                     backgroundColor: [
-                        "rgba(0, 194, 146, 0.8)",
-                        "rgba(251, 150, 120, 0.8)"
+                        "rgba(0, 194, 146, 0.5)",
+                        "rgba(251, 150, 120, 0.5)"
                     ],
                     hoverBackgroundColor: [
                         "rgba(0, 194, 146, 0.95)",
@@ -390,19 +382,58 @@
                     },
                 }
             }
-        });
+        };
 
-        var dataImpor = [];
+        var doughnutChart = new Chart(doughnutChartCanvas, doughnutChartData);
+
+
+        var pyramidBarChartCanvas = document.getElementById( "pyramidBarChart" );
+        pyramidBarChartCanvas.height = '300';
+
+        var arrayImpor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",6102,6200.8,5544.9,5245.6,6210.7,7160.6,6077.4],
+            ["Bahan Makanan",4685.1,4143.3,2931.8,3517.9,4454,4918.5,4108.4],
+            ["Bahan Material",3507.9,3827,3063.8,2735.3,3711.7,4469.5,3552.5],
+            ["Bahan Mineral",45153.7,43085,24487.4,18629.8,23937.3,29779.8,30845.5],
+            ["Kayu dan Produk Kayu",490.2,476.6,396.5,422.7,450.4,409.8,441.0],
+            ["Mesin dan Kelistrikan",9243.7,9504.9,8431.1,8665.3,10766.3,13088,9949.9],
+            ["Pertanian dan Peternakan",4396.8,3905,4228.6,5403.2,6342.9,7098.9,5229.2],
+            ["Tekstil dan Produk Tekstil",1346.3,1400.8,1087.6,1087.2,1325.2,1441.9,1281.5],
+            ["Transportasi",3626,2838.7,2265,2261.9,2539.7,2563.2,2682.4]
+        ];
+
+        var arrayEkspor = [
+            ["Sektor","2013","2014","2015","2016","2017","2018","Average"],
+            ["Bahan Kimia dan Plastik",7865.5,6501.9,6447.8,5871,7852.8,6946.8,6914.3],
+            ["Bahan Makanan",696.8,989.5,744.7,1590.3,1775.3,1887.5,1280.7],
+            ["Bahan Material",7455.8,9197.6,9223.9,9705.8,9174.7,8430.5,8864.7],
+            ["Bahan Mineral",52702,45428.9,35168.1,30484.6,39063,44082.8,41154.9],
+            ["Kayu dan Produk Kayu",10212.2,10376.3,7664.2,6234.4,7716.1,9423,8604.4],
+            ["Mesin dan Kelistrikan",1940.3,2321.7,2069.6,2484.7,3139.8,2983.1,2489.9],
+            ["Pertanian dan Peternakan",22172.8,23764,20305.7,20815.8,25943.8,24309.9,22885.3],
+            ["Tekstil dan Produk Tekstil",3876.2,4465.6,3922.5,4138.1,4620.8,4448.4,4245.3],
+            ["Transportasi",2971.7,2790.1,2197.7,2374.3,3162.9,3138.5,2772.5]
+        ];
+
+        // replace all ekspor with negative value (biar di kiri sumbu Y)
+        for(var j=1; j<arrayImpor.length;j++){
+            for(var i=1;i<=7;i++){
+                arrayImpor[j][i] = arrayImpor[j][i] * -1
+            }
+        }      
+
+        var defaultDataImpor = [];
         for(var i = 1; i<arrayImpor.length;i++){ // skip header
-            dataImpor.push(arrayImpor[i][7])
+            defaultDataImpor.push(arrayImpor[i][7])
         }
 
-        var dataEkspor = [];
+        var defaultDataEkspor = [];
         for(var i = 1; i<arrayEkspor.length;i++){ // skip header
-            dataEkspor.push(arrayEkspor[i][7])
+            defaultDataEkspor.push(arrayEkspor[i][7])
         }
 
-        var pyramidBarChart = new Chart( pyramidBarChartCanvas, {
+        var pyramidBarChartData = {
             type: 'horizontalBar',
             data: {
                 labels: [ 
@@ -419,17 +450,19 @@
                 datasets: [
                     {
                         label: "Impor",
-                        data: dataImpor,
-                        borderColor: "rgba(245, 23, 66,.5)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(245, 23, 66,.5)"
+                        data: defaultDataImpor,
+                        borderColor: "rgba(251, 150, 120, 0.9)",
+                        borderWidth: 2,
+                        backgroundColor: "rgba(251, 150, 120, 0.5)",
+                        hoverBackgroundColor: "rgba(251, 150, 120, 0.95)"
                     },
                     {
                         label: "Ekspor",
-                        data: dataEkspor,
+                        data: defaultDataEkspor,
                         borderColor: "rgba(0, 194, 146, 0.9)",
-                        borderWidth: "0",
-                        backgroundColor: "rgba(0, 194, 146, 0.5)"
+                        borderWidth: 2,
+                        backgroundColor: "rgba(0, 194, 146, 0.5)",
+                        hoverBackgroundColor: "rgba(0, 194, 146, 0.95)"
                     }
                 ]
             },
@@ -443,7 +476,10 @@
                         ticks: {
                             stepSize: 25000,
                             min: -50000,
-                            max: 50000
+                            max: 50000,
+                            callback: function(value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
                         }
                     }, {
                         id: 'xAxis2',
@@ -459,167 +495,89 @@
                     yAxes: [{
                         stacked: true
                     }]
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return  tooltipItem.xLabel.toString().replace('-','').replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
+                        }
+                    },
+                    itemSort: function(a, b) {
+                        return b.datasetIndex - a.datasetIndex
+                    }
                 }
             }
-        });
+        }
+
+        var pyramidBarChart = new Chart(pyramidBarChartCanvas, pyramidBarChartData);
 
         function updateDoughnutChartData(number) {
             var data;
-            var dataImpor = [];
-            var dataEkspor = [];
-            var j;
+            var labels;
+
             if (number == 0) { // average
                 data = [164115.14, 160444.66];
                 labels = ['Ekspor - 164,115', 'Impor - 160,444'];
-                j = 7;
             } else if (number == 1) { // 2014
                 data = [175980.00, 178178.80];
                 labels = ['Ekspor - 175,980', 'Impor - 178,178'];
-                j = 2;
             } else if (number == 2) { // 2015
                 data = [150366.30, 142694.80];
                 labels = ['Ekspor - 150,366', 'Impor - 142,694'];
-                j = 3;
             } else if (number == 3) { // 2016
                 data = [145186.20, 135652.90];
                 labels = ['Ekspor - 145,186', 'Impor - 135,652'];
-                j = 4;
             } else if (number == 4) { // 2017
                 data = [168828.20, 156985.60];
                 labels = ['Ekspor - 168,828', 'Impor - 156,985'];
-                j = 5;
             } else if (number == 5) { // 2018
                 data = [180215.00, 188711.20];
                 labels = ['Ekspor - 180,215', 'Impor - 188,711'];
-                j = 6;
             } else {
                 data = [164115.14, 160444.66];
                 labels = ['Ekspor - 164,115', 'Impor - 160,444'];
-                j = 7;
             }
+
+            doughnutChartData['data']['datasets'][0]['data'] = data;
+            doughnutChartData['data']['labels'] = labels;
+            
             var element = document.getElementById("doughnutChart");
             element.parentNode.removeChild(element);
             var parent = document.getElementById("view2");
             var newElement = document.createElement("canvas");
+            newElement.height = '100';
             newElement.setAttribute('id', "doughnutChart");
             parent.appendChild(newElement);
             var doughnutChartCanvas = document.getElementById("doughnutChart");
-            var doughnutChart = new Chart(doughnutChartCanvas, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: data,
-                        borderColor: [
-                            "rgba(0, 194, 146, 0.9)",
-                            "rgba(251, 150, 120, 0.9)"
-                        ],
-                        backgroundColor: [
-                            "rgba(0, 194, 146, 0.8)",
-                            "rgba(251, 150, 120, 0.8)"
-                        ],
-                        hoverBackgroundColor: [
-                            "rgba(0, 194, 146, 0.95)",
-                            "rgba(251, 150, 120, 0.95)"                                 
-                        ]
-                    }],
-                    labels: labels,
-                    tooltip: ['Ekspor', 'Impor']
-                },
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'right'
-                    },
-                    tooltips: {
-                        callbacks: {
-                            title: function(tooltipItem, data) {
-                                return data['tooltip'][tooltipItem[0]['index']];
-                            },
-                            label: function(tooltipItem, data) {
-                                return data['datasets'][0]['data'][tooltipItem['index']].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " juta US$";
-                            }
-                        },
-                    }
-                }
-            });
-            doughnutChart.data.datasets[0].data = data;
-            doughnutChart.update();
 
-            for(var i = 1; i<arrayImpor.length;i++){ // skip header
-                dataImpor.push(arrayImpor[i][j])               
-            }
-
-            for(var i = 1; i<arrayEkspor.length;i++){ // skip header
-                dataEkspor.push(arrayEkspor[i][j])
-            }
-
-            pyramidBarChart.data.datasets[0].data = dataImpor;
-            pyramidBarChart.data.datasets[1].data = dataEkspor;
-            pyramidBarChart.update();
+            var doughnutChart = new Chart(doughnutChartCanvas, doughnutChartData);
         }
-        function updateDoughnutChartTitle(number) {
-            var title = "Ekspor Impor Tahun ";
-            var title2 = "Ekspor Impor Sektor Perdagangan Tahun ";
-            if (number == 0) {
-                title = "Rata-rata Ekspor Impor Tahun 2014-2018";
-                title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
-            } else if (number == 1) {
-                title += 2014;
-                title2 += 2014;
+
+        function updateChartTitle(number) {
+            var title = "Rata-rata Ekspor Impor Tahun 2014-2018";
+            var title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
+
+            var year;
+            if (number == 1) {
+                year = 2014;
             } else if (number == 2) {
-                title += 2015;
-                title2 += 2015;
+                year = 2015;
             } else if (number == 3) {
-                title += 2016;
-                title2 += 2016;
+                year = 2016;
             } else if (number == 4) {
-                title += 2017;
-                title2 += 2017;
+                year = 2017;
             } else if (number == 5) {
-                title += 2018;
-                title2 += 2018;
-            } else {
-                title = "Rata-rata Ekspor Impor Tahun 2014-2018";
-                title2 = "Rata-rata Ekspor Impor Sektor Perdagangan Tahun 2014-2018";
+                year = 2018;
+            } 
+
+            if (year) {
+                title = "Ekspor Impor Tahun " + year;
+                title2 = "Ekspor Impor Sektor Perdagangan Tahun " + year;
             }
             document.getElementById("title-view2").innerHTML = title;
             document.getElementById("title-view3").innerHTML = title2;
         }
-        function updateDoughnutChart(number) {
-            if (number == 0) {
-                updateDoughnutChartData(0);
-                updateDoughnutChartTitle(0);
-            } else if (number == 1) {
-                updateDoughnutChartData(1);
-                updateDoughnutChartTitle(1);
-            } else if (number == 2) {
-                updateDoughnutChartData(2);
-                updateDoughnutChartTitle(2);
-            } else if (number == 3) {
-                updateDoughnutChartData(3);
-                updateDoughnutChartTitle(3);
-            } else if (number == 4) {
-                updateDoughnutChartData(4);
-                updateDoughnutChartTitle(4);
-            } else if (number == 5) {
-                updateDoughnutChartData(5);
-                updateDoughnutChartTitle(5);
-            } else {
-                updateDoughnutChartData(0);
-                updateDoughnutChartTitle(0);
-            }
-        }
 
-        function updateSort(sortBy) {
-            switch (sortBy) {
-                case 'impor': break;
-                case 'ekspor': break;
-                default: break;
-            }
-            pyramidBarChart.data.datasets[0].data = dataImpor;
-            pyramidBarChart.data.datasets[1].data = dataEkspor;
-            pyramidBarChart.update();
-        }
         function updateLineChartPoint(isClicked) {
             isClicked.forEach((item, idx) => {
                 if (item) {
@@ -631,10 +589,78 @@
                     lineChart.data.datasets[0].pointBackgroundColor[idx] = '#03a9f3';
                     lineChart.data.datasets[0].pointBorderColor[idx] = '#03a9f3';
                     lineChart.data.datasets[0].pointRadius[idx] = 3;
+                    lineChart.data.datasets[0].pointHoverBorderColor[idx] = '#ffc107';
                 }
             });
             lineChart.update();
         }
+        
+        var radio = document.getElementsByName('sortBy');
+
+        function updateSortBy() {
+            var sortBy = 'default';
+            for(var i = 0; i < radio.length; i++){
+                if(radio[i].checked){
+                    sortBy = radio[i].value;
+                }
+            }
+            var arrayFinal = [];
+            var j = 7;
+
+            pointsActivity.forEach(function(val, idx){
+                if (val) {
+                    switch (idx) {
+                        case 0: j = 2; break;
+                        case 1: j = 3; break;
+                        case 2: j = 4; break;
+                        case 3: j = 5; break;
+                        case 4: j = 6; break;
+                    }
+                }
+            })
+
+            for(var i = 1; i<arrayImpor.length;i++){ // skip header
+                arrayFinal.push([arrayImpor[i][0],arrayImpor[i][j],arrayEkspor[i][j]])               
+            }
+
+            function sortImpor(a, b) {
+                if (a[1] === b[1]) {
+                    return 0;
+                }
+                else {
+                    return (a[1] < b[1]) ? -1 : 1;
+                }
+            }
+            function sortEkspor(a, b) {
+                if (a[2] === b[2]) {
+                    return 0;
+                }
+                else {
+                    return (a[2] > b[2]) ? -1 : 1;
+                }
+            }
+
+            switch (sortBy) {
+                case 'impor': arrayFinal.sort(sortImpor); break;
+                case 'ekspor': arrayFinal.sort(sortEkspor); break;
+                default: break;
+            }
+            
+            var labels = [];
+            var dataImpor = [];
+            var dataEkspor = [];
+            arrayFinal.forEach(function(item, idx){
+                labels.push(item[0])
+                dataImpor.push(item[1])
+                dataEkspor.push(item[2])
+            })
+
+            pyramidBarChart.data.labels = labels;
+            pyramidBarChart.data.datasets[0].data = dataImpor;
+            pyramidBarChart.data.datasets[1].data = dataEkspor;
+            pyramidBarChart.update();
+        }
+
     </script>
 </body>
 </html>
