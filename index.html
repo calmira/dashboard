@@ -145,8 +145,9 @@
                                 <div class="card-body">
                                     <h4 class="box-title">Neraca Perdagangan Indonesia Tahun 2014-2018 </h5>
                                 </div>
-                                <div class="card-body" id="view1">
-                                    <div id="view-neraca">
+                                <div class="card-body" id="view1" style="padding-top: 0;">
+                                    <div style="color: #666;line-height: 1.2;font-size: 12;font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;font-size: 12px;margin-bottom: 10px;">Neraca (dalam juta US$)</div>
+                                    <div id="view-neraca" style="margin-left: 20px;">
                                         <canvas id="lineChart"></canvas>
                                     </div>
                                 </div>
@@ -303,10 +304,6 @@
                     xAxes: [{
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Tahun'
                         }
                     }],
                     yAxes: [{
@@ -317,10 +314,6 @@
                             callback: function(value, index, values) {
                                 return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             }
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Neraca (dalam juta US$)'
                         }
                     }]
                 },
